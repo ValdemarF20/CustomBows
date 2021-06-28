@@ -1,19 +1,17 @@
 package net.arcticforestmc.custombows;
 
-import org.bukkit.Effect;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.util.Vector;
 
 public class OnHitEvent implements Listener {
     private CustomBows customBows;
@@ -43,7 +41,10 @@ public class OnHitEvent implements Listener {
 
         if(!(arrTagContainer.has(arrKey, PersistentDataType.STRING))){return;}
 
-        projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 500);
+        for(int i = 0; i <= 500; i++){
+            Vector v =  Vector.getRandom().subtract(new Vector(0.5, 0.5, 0.5)).normalize().multiply(0.5);
+            projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 0, v.getX(), v.getY(), v.getZ());
+        }
 
         projectile.remove();
     }

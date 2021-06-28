@@ -1,12 +1,15 @@
 package net.arcticforestmc.custombows;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -44,18 +47,26 @@ public class GiveCustomBow implements CommandExecutor {
     }
     public void giveBow(Player player){
         List<String> lore = new ArrayList<>();
-        lore.add("Custom Bow from 4th of July");
+        lore.add("Custom Bow from 4th of July 2021");
 
         ItemStack customBow = new ItemStack(Material.BOW);
+        customBow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
         ItemMeta meta = customBow.getItemMeta();
-        meta.setLore(lore);
 
-        //NBT
-        NamespacedKey key = new NamespacedKey(customBows, "Custom-Bow-Identifier");
-        PersistentDataContainer tagContainer = meta.getPersistentDataContainer();
-        tagContainer.set(key, PersistentDataType.STRING, "Super-cool-bow");
-        customBow.setItemMeta(meta);
+        if(meta != null) {
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cL&fi&9b&ce&fr&9t&cy"));
+            meta.setLore(lore);
 
-        player.getInventory().addItem(customBow);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+
+            //NBT
+            NamespacedKey key = new NamespacedKey(customBows, "Custom-Bow-Identifier");
+            PersistentDataContainer tagContainer = meta.getPersistentDataContainer();
+            tagContainer.set(key, PersistentDataType.STRING, "Super-cool-bow");
+            customBow.setItemMeta(meta);
+
+            player.getInventory().addItem(customBow);
+        }
     }
 }

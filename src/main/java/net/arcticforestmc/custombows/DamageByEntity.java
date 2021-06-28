@@ -24,7 +24,6 @@ public class DamageByEntity implements Listener {
 
         PersistentDataContainer tagContainer = arr.getPersistentDataContainer();
         if(tagContainer.has(key, PersistentDataType.STRING)){
-            e.setDamage(0);
             arr.remove();
         }
     }
