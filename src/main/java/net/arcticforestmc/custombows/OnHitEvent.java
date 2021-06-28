@@ -1,8 +1,10 @@
 package net.arcticforestmc.custombows;
 
+import org.bukkit.Effect;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,15 +15,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-public class ShootEvent implements Listener {
+public class OnHitEvent implements Listener {
     private CustomBows customBows;
 
-    public ShootEvent(CustomBows customBows){
+    public OnHitEvent(CustomBows customBows){
         this.customBows = customBows;
     }
 
     @EventHandler
-    public void onShoot(ProjectileHitEvent e){
+    public void onHit(ProjectileHitEvent e){
         if(!(e.getEntity().getShooter() instanceof Player)) { return; }
 
         Player player = (Player) e.getEntity().getShooter();
@@ -38,8 +40,11 @@ public class ShootEvent implements Listener {
 
         NamespacedKey arrKey = new NamespacedKey(customBows, "Special-boy-arrow");
         PersistentDataContainer arrTagContainer = projectile.getPersistentDataContainer();
-        arrTagContainer.set(arrKey, PersistentDataType.STRING, "Super-cool-arrow");
 
-        projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 50);
+        if(!(arrTagContainer.has(arrKey, PersistentDataType.STRING))){return;}
+
+        projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 500);
+
+        projectile.remove();
     }
 }

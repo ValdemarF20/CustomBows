@@ -1,6 +1,5 @@
 package net.arcticforestmc.custombows;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
@@ -15,8 +14,9 @@ public final class CustomBows extends JavaPlugin {
         this.getCommand("custombow").setExecutor(new GiveCustomBow(this));
 
         //Events
-        this.getServer().getPluginManager().registerEvents(new ShootEvent(this), this);
-        this.getServer().getPluginManager().registerEvents(new onHitEvent(this), this);
+        this.getServer().getPluginManager().registerEvents(new OnHitEvent(this), this);
+        this.getServer().getPluginManager().registerEvents(new DamageByEntity(this), this);
+        this.getServer().getPluginManager().registerEvents(new ShootingEvent(this), this);
     }
 
     @Override

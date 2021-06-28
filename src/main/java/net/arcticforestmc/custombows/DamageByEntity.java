@@ -8,14 +8,14 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-public class onHitEvent implements Listener {
+public class DamageByEntity implements Listener {
     private CustomBows customBows;
-    public onHitEvent(CustomBows customBows){
+    public DamageByEntity(CustomBows customBows){
         this.customBows = customBows;
     }
 
     @EventHandler
-    public void onHit(EntityDamageByEntityEvent e){
+    public void damageByEntity(EntityDamageByEntityEvent e){
         if(!(e.getDamager() instanceof Arrow)){return;}
 
         Arrow arr = (Arrow) e.getDamager();
@@ -24,7 +24,8 @@ public class onHitEvent implements Listener {
 
         PersistentDataContainer tagContainer = arr.getPersistentDataContainer();
         if(tagContainer.has(key, PersistentDataType.STRING)){
-            e.setCancelled(true);
+            e.setDamage(0);
+            arr.remove();
         }
     }
 }
