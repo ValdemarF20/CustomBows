@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.Console;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.logging.Level;
 
 public class GiveCustomBow implements CommandExecutor {
     private CustomBows customBows;
+    private int counter = 0;
     public GiveCustomBow(CustomBows customBows){
         this.customBows = customBows;
     }
@@ -46,19 +48,21 @@ public class GiveCustomBow implements CommandExecutor {
         return true;
     }
     public void giveBow(Player player){
-        List<String> lore = new ArrayList<>();
-        lore.add("Custom Bow from 4th of July 2021");
-
         ItemStack customBow = new ItemStack(Material.BOW);
-        customBow.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+        customBow.addEnchantment(Enchantment.MENDING, 1);
         ItemMeta meta = customBow.getItemMeta();
+        List<String> lore = new ArrayList<>();
+
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&5The Shot Heard Round The World"));
+        lore.add(ChatColor.translateAlternateColorCodes('&', "&52021"));
 
         if(meta != null) {
-            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&cL&fi&9b&ce&fr&9t&cy"));
+            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&l &4L&fi&1b&4e&fr&1t&4y"));
             meta.setLore(lore);
 
             meta.setUnbreakable(true);
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
             //NBT
             NamespacedKey key = new NamespacedKey(customBows, "Custom-Bow-Identifier");

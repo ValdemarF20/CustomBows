@@ -2,6 +2,7 @@ package net.arcticforestmc.custombows;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -16,15 +17,27 @@ public class DamageByEntity implements Listener {
 
     @EventHandler
     public void damageByEntity(EntityDamageByEntityEvent e){
-        if(!(e.getDamager() instanceof Arrow)){return;}
+        if(e.getDamager() instanceof Arrow) {
 
-        Arrow arr = (Arrow) e.getDamager();
+            Arrow arr = (Arrow) e.getDamager();
 
-        NamespacedKey key = new NamespacedKey(customBows, "Special-boy-arrow");
+            NamespacedKey arrKey = new NamespacedKey(customBows, "Special-boy-arrow");
+            PersistentDataContainer arrTagContainer = arr.getPersistentDataContainer();
 
-        PersistentDataContainer tagContainer = arr.getPersistentDataContainer();
-        if(tagContainer.has(key, PersistentDataType.STRING)){
-            arr.remove();
+            if(arrTagContainer.has(arrKey, PersistentDataType.STRING)){
+                arr.remove();
+            }
+        }
+
+        if(e.getDamager() instanceof Firework) {
+            Firework fw = (Firework) e.getDamager();
+
+            NamespacedKey fwKey = new NamespacedKey(customBows, "Special-boy-firework");
+            PersistentDataContainer fwTagContainer = fw.getPersistentDataContainer();
+
+            if(fwTagContainer.has(fwKey, PersistentDataType.STRING)){
+                e.setCancelled(true);
+            }
         }
     }
 }

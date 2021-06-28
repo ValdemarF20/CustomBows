@@ -1,17 +1,22 @@
 package net.arcticforestmc.custombows;
 
-import org.bukkit.NamespacedKey;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OnHitEvent implements Listener {
     private CustomBows customBows;
@@ -41,10 +46,25 @@ public class OnHitEvent implements Listener {
 
         if(!(arrTagContainer.has(arrKey, PersistentDataType.STRING))){return;}
 
-        for(int i = 0; i <= 500; i++){
-            Vector v =  Vector.getRandom().subtract(new Vector(0.5, 0.5, 0.5)).normalize().multiply(0.5);
-            projectile.getWorld().spawnParticle(Particle.FIREWORKS_SPARK, projectile.getLocation(), 0, v.getX(), v.getY(), v.getZ());
-        }
+        projectile.getWorld().playEffect(projectile.getLocation(), Effect.FIREWORK_SHOOT, 0);
+
+        // Firework
+        List<FireworkEffect> fireworkEffectList = new ArrayList<>();
+        fireworkEffectList.add(FireworkEffect.builder().withColor(Color.WHITE).build());
+        fireworkEffectList.add(FireworkEffect.builder().withColor(Color.BLUE).build());
+        fireworkEffectList.add(FireworkEffect.builder().withColor(Color.RED).build());
+
+        Firework firework = (Firework) projectile.getWorld().spawnEntity(projectile.getLocation(), EntityType.FIREWORK);
+        FireworkMeta fireworkMeta = firework.getFireworkMeta();
+        fireworkMeta.addEffects(fireworkEffectList);
+        fireworkMeta.setPower(0);
+
+        firework.setFireworkMeta(fireworkMeta);
+        firework.detonate();
+
+        NamespacedKey fwKey = new NamespacedKey(customBows, "Special-boy-firework");
+        PersistentDataContainer fwTagContainer = firework.getPersistentDataContainer();
+        fwTagContainer.set(fwKey, PersistentDataType.STRING, "Arrow-from-4th-of-july");
 
         projectile.remove();
     }

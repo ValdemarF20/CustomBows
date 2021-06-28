@@ -22,7 +22,6 @@ public class ShootingEvent implements Listener {
 
     @EventHandler
     public void onShoot(ProjectileLaunchEvent e){
-        System.out.println("Debug");
         if(!(e.getEntity().getShooter() instanceof Player) || !(e.getEntity() instanceof Arrow)) {return;}
 
         Player player = (Player) e.getEntity().getShooter();
