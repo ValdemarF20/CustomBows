@@ -1,10 +1,12 @@
 package net.arcticforestmc.custombows;
 
+import net.arcticforestmc.custombows.DataManagers.DataContainer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
 
-public final class CustomBows extends JavaPlugin {
+public class CustomBows extends JavaPlugin {
+    private DataContainer dataContainer;
 
     @Override
     public void onEnable() {
