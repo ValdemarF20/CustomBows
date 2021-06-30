@@ -11,15 +11,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class SimpleDataContainer implements DataContainer {
     private JavaPlugin mainInstance;
-    private Object obj;
 
-    public SimpleDataContainer(CustomBows customBows, Object obj){
+    public SimpleDataContainer(CustomBows customBows){
         this.mainInstance = customBows;
-        this.obj = obj;
     }
 
     @Override
-    public void set(String key, byte...args) {
+    public Object set(Object obj, String key, byte...args) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -27,10 +25,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.BYTE_ARRAY, args);
         }
+        return obj;
     }
 
     @Override
-    public void set(String key, Double value) {
+    public Object set(Object obj, String key, Double value) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -38,10 +37,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.DOUBLE, value);
         }
+        return obj;
     }
 
     @Override
-    public void set(String key, Float value) {
+    public Object set(Object obj, String key, Float value) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -49,10 +49,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.FLOAT, value);
         }
+        return obj;
     }
 
     @Override
-    public void set(String key, int...args) {
+    public Object set(Object obj, String key, int...args) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -60,10 +61,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.INTEGER_ARRAY, args);
         }
+        return obj;
     }
 
     @Override
-    public void set(String key, long...args) {
+    public Object set(Object obj, String key, long...args) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -71,10 +73,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.LONG_ARRAY, args);
         }
+        return obj;
     }
 
     @Override
-    public void set(String key, Short value) {
+    public Object set(Object obj, String key, Short value) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -82,10 +85,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.SHORT, value);
         }
+        return obj;
     }
 
     @Override
-    public void set(final String key, final String value) {
+    public Object set(Object obj, String key, String value) {
         if(obj instanceof PersistentDataHolder){
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -93,10 +97,11 @@ public class SimpleDataContainer implements DataContainer {
             PersistentDataContainer tagContainer = pdh.getPersistentDataContainer();
             tagContainer.set(namespacedKey, PersistentDataType.STRING, value);
         }
+        return obj;
     }
 
     @Override
-    public Object get(final String key, final Object type) {
+    public Object get(Object obj, final String key, final Object type) {
         if(obj instanceof PersistentDataHolder) {
             PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
@@ -109,7 +114,7 @@ public class SimpleDataContainer implements DataContainer {
     }
 
     @Override
-    public boolean has(String key) {
+    public boolean has(Object obj, String key) {
         PersistentDataHolder pdh = (PersistentDataHolder) obj;
 
         NamespacedKey namespacedKey = new NamespacedKey(mainInstance, key);

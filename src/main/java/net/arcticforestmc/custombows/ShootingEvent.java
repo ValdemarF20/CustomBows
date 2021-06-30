@@ -12,7 +12,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class ShootingEvent implements Listener {
     private final CustomBows customBows;
-    private DataContainer dataContainer = Utils.getRightContainer(null);
 
     public ShootingEvent(CustomBows customBows) {
         this.customBows = customBows;
@@ -27,13 +26,13 @@ public class ShootingEvent implements Listener {
         if(meta == null){return;}
         Arrow arrow = (Arrow) e.getEntity();
 
-        dataContainer = Utils.getRightContainer(meta);
-        if(!(dataContainer.has("Custom-Bow-Identifier"))){
+        DataContainer dataContainer = Utils.getRightContainer();
+        if(!(dataContainer.has(meta, "Custom-Bow-Identifier"))){
             return;
         }
 
-        dataContainer = Utils.getRightContainer(arrow);
-        dataContainer.set("Special-boy-arrow", "Super-cool-arrow");
+        dataContainer = Utils.getRightContainer();
+         arrow = (Arrow) dataContainer.set(arrow, "Special-boy-arrow", "Super-cool-arrow");
 
         // BLUE
         double redOne = 0 / 255D;
@@ -47,14 +46,15 @@ public class ShootingEvent implements Listener {
         // RED
         double redThree = 255 / 255D;
 
+        Arrow finalArrow = arrow;
         new BukkitRunnable(){
             @Override
             public void run() {
-                if (!arrow.isValid()) {this.cancel();}
+                if (!finalArrow.isValid()) {this.cancel();}
                 for(int i = 0; i <= 3; i++){
-                    arrow.getWorld().spawnParticle(Particle.SPELL_MOB, arrow.getLocation(), 0, redOne, greenOne, blue, 1); // BLUE
-                    arrow.getWorld().spawnParticle(Particle.SPELL_MOB, arrow.getLocation(), 0, redTwo, greenTwo, blue, 1); // WHITE
-                    arrow.getWorld().spawnParticle(Particle.SPELL_MOB, arrow.getLocation(), 0, redThree, greenOne, 0 / 255D, 1); // RED
+                    finalArrow.getWorld().spawnParticle(Particle.SPELL_MOB, finalArrow.getLocation(), 0, redOne, greenOne, blue, 1); // BLUE
+                    finalArrow.getWorld().spawnParticle(Particle.SPELL_MOB, finalArrow.getLocation(), 0, redTwo, greenTwo, blue, 1); // WHITE
+                    finalArrow.getWorld().spawnParticle(Particle.SPELL_MOB, finalArrow.getLocation(), 0, redThree, greenOne, 0 / 255D, 1); // RED
                 }
             }
         }.runTaskTimerAsynchronously(customBows, 1, 1);

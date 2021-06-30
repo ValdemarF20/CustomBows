@@ -9,12 +9,9 @@ import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 public class DamageByEntity implements Listener {
     private final CustomBows customBows;
-    private DataContainer dataContainer = Utils.getRightContainer(null);
 
     public DamageByEntity(CustomBows customBows){
         this.customBows = customBows;
@@ -22,14 +19,14 @@ public class DamageByEntity implements Listener {
 
     @EventHandler
     public void damageByEntity(EntityDamageByEntityEvent e){
+        DataContainer dataContainer = Utils.getRightContainer();
         if(e.getDamager() instanceof Arrow) {
 
             Arrow arr = (Arrow) e.getDamager();
 
-            NamespacedKey arrKey = new NamespacedKey(customBows, "Special-boy-arrow");
-            PersistentDataContainer arrTagContainer = arr.getPersistentDataContainer();
+            dataContainer = Utils.getRightContainer();
 
-            if(arrTagContainer.has(arrKey, PersistentDataType.STRING)){
+            if(dataContainer.has(arr, "Special-boy-arrow")){
                 arr.remove();
             }
         }
@@ -37,8 +34,8 @@ public class DamageByEntity implements Listener {
         if(e.getDamager() instanceof Firework) {
             Firework fw = (Firework) e.getDamager();
 
-            dataContainer = Utils.getRightContainer(fw);
-            if(dataContainer.has("Special-boy-firework")){
+            dataContainer = Utils.getRightContainer();
+            if(dataContainer.has(fw , "Special-boy-firework")){
                 e.setCancelled(true);
             }
         }

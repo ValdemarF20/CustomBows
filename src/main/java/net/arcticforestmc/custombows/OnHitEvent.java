@@ -12,15 +12,12 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OnHitEvent implements Listener {
     private final CustomBows customBows;
-    private DataContainer dataContainer = Utils.getRightContainer(null);
 
     public OnHitEvent(CustomBows customBows){
         this.customBows = customBows;
@@ -35,15 +32,13 @@ public class OnHitEvent implements Listener {
         ItemMeta meta = customBow.getItemMeta();
 
         if(meta == null) { return; }
-        PersistentDataContainer tagContainer = meta.getPersistentDataContainer();
-        NamespacedKey key = new NamespacedKey(customBows, "Custom-Bow-Identifier");
-
-        if(!(tagContainer.has(key, PersistentDataType.STRING))) { return; }
+        DataContainer dataContainer = Utils.getRightContainer();
+        if(!(dataContainer.has(meta, "Custom-Bow-Identifier"))){return;}
 
         Entity projectile = e.getEntity();
 
-        dataContainer = Utils.getRightContainer(projectile);
-        if(!(dataContainer.has("Special-boy-arrow"))){
+        dataContainer = Utils.getRightContainer();
+        if(!(dataContainer.has(projectile, "Special-boy-arrow"))){
             return;
         }
 
@@ -63,8 +58,8 @@ public class OnHitEvent implements Listener {
         firework.setFireworkMeta(fireworkMeta);
         firework.detonate();
 
-        dataContainer = Utils.getRightContainer(firework);
-        dataContainer.set("Special-boy-firework", "Arrow-from-4th-of-july");
+        dataContainer = Utils.getRightContainer();
+        dataContainer.set(firework, "Special-boy-firework", "Arrow-from-4th-of-july");
 
         projectile.remove();
     }

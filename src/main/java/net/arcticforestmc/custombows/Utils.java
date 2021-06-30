@@ -8,10 +8,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class Utils {
     private Utils(){}
 
-    public static DataContainer getRightContainer(Object obj) {
+    public static DataContainer getRightContainer() {
         CustomBows customBows = JavaPlugin.getPlugin(CustomBows.class);
 
-        if (ServerVersion.CURRENT_VERSION.isOlderThan(ServerVersion.V1_14_R1)) {return new LegacyDataContainer();}
-        return new SimpleDataContainer(customBows, obj);
+        if (ServerVersion.CURRENT_VERSION.isOlderThan(ServerVersion.V1_14_R1)) {return new LegacyDataContainer(customBows);}
+        return new SimpleDataContainer(customBows);
     }
 }

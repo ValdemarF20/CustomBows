@@ -21,7 +21,7 @@ import java.util.logging.Level;
 public class GiveCustomBow implements CommandExecutor {
     private final CustomBows customBows;
     private int counter = 1;
-    private DataContainer dataContainer = Utils.getRightContainer(null);
+    private DataContainer dataContainer = Utils.getRightContainer();
 
     public GiveCustomBow(CustomBows customBows){
         this.customBows = customBows;
@@ -53,10 +53,13 @@ public class GiveCustomBow implements CommandExecutor {
         customBow.addEnchantment(Enchantment.MENDING, 1);
         ItemMeta meta = customBow.getItemMeta();
         List<String> lore = new ArrayList<>();
-
+        dataContainer = Utils.getRightContainer();
+        customBow = (ItemStack) dataContainer.set(customBow, "Custom-Bow-Identifier", "Super-cool-bow");
+        meta = customBow.getItemMeta();
+        System.out.println(dataContainer.has(customBow, "Custom-Bow-Identifier"));
 
         if(meta != null) {
-            dataContainer = Utils.getRightContainer(meta);
+
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&l &4L&fi&1b&4e&fr&1t&4y"));
             meta.setLore(lore);
 
@@ -64,23 +67,25 @@ public class GiveCustomBow implements CommandExecutor {
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
-            dataContainer.set("Custom-Bow-Identifier", "Super-cool-bow");
-
             customBow.setItemMeta(meta);
 
             player.getInventory().addItem(customBow);
 
+            ItemMeta finalMeta = meta;
             new BukkitRunnable(){
+                private ItemStack item = customBow;
                 @Override
                 public void run() {
                     switch(counter){
                         case 1:
+                            System.out.println(dataContainer.has(item, "Custom-Bow-Identifier") + " Two");
+                            System.out.println(dataContainer.has(customBow,"Custom-Bow-Identifier") + "Three");
+
                             for (Player player : Bukkit.getOnlinePlayers()) {
                                 for (ItemStack is : player.getInventory()) {
                                     if((is == null) || (is.getItemMeta() == null)){ continue; }
-
-                                    if(dataContainer.has("Custom-Bow-Identifier") ) {
-                                        customBow = is;
+                                    if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
+                                        item = is;
                                     }
                                 }
                             }
@@ -88,11 +93,11 @@ public class GiveCustomBow implements CommandExecutor {
                             lore.clear();
                             lore.add(ChatColor.translateAlternateColorCodes('&', "&4The Shot Heard Round The World"));
                             lore.add(ChatColor.translateAlternateColorCodes('&', "&42021"));
-                            meta.setLore(lore);
-                            customBow.setItemMeta(meta);
+                            finalMeta.setLore(lore);
+                            item.setItemMeta(finalMeta);
 
-                            if(player.getInventory().contains(customBow)) {
-                                player.getInventory().setItem(player.getInventory().first(customBow), customBow);
+                            if(player.getInventory().contains(item)) {
+                                player.getInventory().setItem(player.getInventory().first(item), item);
                                 player.updateInventory();
                             }
                             counter = 2;
@@ -104,8 +109,8 @@ public class GiveCustomBow implements CommandExecutor {
                                     if((is == null) || (is.getItemMeta() == null)){ continue; }
 
 
-                                    if(dataContainer.has("Custom-Bow-Identifier") ) {
-                                        customBow = is;
+                                    if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
+                                        item = is;
                                     }
                                 }
                             }
@@ -113,11 +118,11 @@ public class GiveCustomBow implements CommandExecutor {
                             lore.clear();
                             lore.add(ChatColor.translateAlternateColorCodes('&', "&fThe Shot Heard Round The World"));
                             lore.add(ChatColor.translateAlternateColorCodes('&', "&f2021"));
-                            meta.setLore(lore);
-                            customBow.setItemMeta(meta);
+                            finalMeta.setLore(lore);
+                            item.setItemMeta(finalMeta);
 
-                            if(player.getInventory().contains(customBow)) {
-                                player.getInventory().setItem(player.getInventory().first(customBow), customBow);
+                            if(player.getInventory().contains(item)) {
+                                player.getInventory().setItem(player.getInventory().first(item), item);
                                 player.updateInventory();
                             }
                             counter = 3;
@@ -127,8 +132,8 @@ public class GiveCustomBow implements CommandExecutor {
                                 for (ItemStack is : player.getInventory()) {
                                     if((is == null) || (is.getItemMeta() == null)){ continue; }
 
-                                    if(dataContainer.has("Custom-Bow-Identifier") ) {
-                                        customBow = is;
+                                    if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
+                                        item = is;
                                     }
                                 }
                             }
@@ -136,11 +141,11 @@ public class GiveCustomBow implements CommandExecutor {
                             lore.clear();
                             lore.add(ChatColor.translateAlternateColorCodes('&', "&9The Shot Heard Round The World"));
                             lore.add(ChatColor.translateAlternateColorCodes('&', "&92021"));
-                            meta.setLore(lore);
-                            customBow.setItemMeta(meta);
+                            finalMeta.setLore(lore);
+                            item.setItemMeta(finalMeta);
 
-                            if(player.getInventory().contains(customBow)) {
-                                player.getInventory().setItem(player.getInventory().first(customBow), customBow);
+                            if(player.getInventory().contains(item)) {
+                                player.getInventory().setItem(player.getInventory().first(item), item);
                                 player.updateInventory();
                             }
                             counter = 1;

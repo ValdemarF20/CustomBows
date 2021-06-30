@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 
 import java.util.Arrays;
 
-enum ServerVersion{
+public enum ServerVersion{
 
         UNKNOWN(1000),
 
