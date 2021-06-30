@@ -1,5 +1,6 @@
-package net.arcticforestmc.custombows;
+package net.arcticforestmc.custombows.Utilities;
 
+import net.arcticforestmc.custombows.CustomBows;
 import net.arcticforestmc.custombows.DataManagers.DataContainer;
 import net.arcticforestmc.custombows.DataManagers.LegacyDataContainer;
 import net.arcticforestmc.custombows.DataManagers.SimpleDataContainer;

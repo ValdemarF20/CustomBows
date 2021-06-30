@@ -1,6 +1,7 @@
 package net.arcticforestmc.custombows;
 
 import net.arcticforestmc.custombows.DataManagers.DataContainer;
+import net.arcticforestmc.custombows.Utilities.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -22,6 +24,7 @@ public class GiveCustomBow implements CommandExecutor {
     private final CustomBows customBows;
     private int counter = 1;
     private DataContainer dataContainer = Utils.getRightContainer();
+    public HashMap<ItemStack, Boolean> runnableIsRunning = new HashMap<>();
 
     public GiveCustomBow(CustomBows customBows){
         this.customBows = customBows;
@@ -56,7 +59,6 @@ public class GiveCustomBow implements CommandExecutor {
         dataContainer = Utils.getRightContainer();
         customBow = (ItemStack) dataContainer.set(customBow, "Custom-Bow-Identifier", "Super-cool-bow");
         meta = customBow.getItemMeta();
-        System.out.println(dataContainer.has(customBow, "Custom-Bow-Identifier"));
 
         if(meta != null) {
 
@@ -78,81 +80,58 @@ public class GiveCustomBow implements CommandExecutor {
                 public void run() {
                     switch(counter){
                         case 1:
-                            System.out.println(dataContainer.has(item, "Custom-Bow-Identifier") + " Two");
-                            System.out.println(dataContainer.has(customBow,"Custom-Bow-Identifier") + "Three");
 
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                for (ItemStack is : player.getInventory()) {
-                                    if((is == null) || (is.getItemMeta() == null)){ continue; }
-                                    if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
-                                        item = is;
-                                    }
-                                }
-                            }
+                            updateLore(item, lore, finalMeta, player, "&4The Shot Heard Round The World", "&42021");
 
-                            lore.clear();
-                            lore.add(ChatColor.translateAlternateColorCodes('&', "&4The Shot Heard Round The World"));
-                            lore.add(ChatColor.translateAlternateColorCodes('&', "&42021"));
-                            finalMeta.setLore(lore);
-                            item.setItemMeta(finalMeta);
-
-                            if(player.getInventory().contains(item)) {
-                                player.getInventory().setItem(player.getInventory().first(item), item);
-                                player.updateInventory();
-                            }
                             counter = 2;
                             break;
 
                         case 2:
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                for (ItemStack is : player.getInventory()) {
-                                    if((is == null) || (is.getItemMeta() == null)){ continue; }
 
+                            updateLore(item, lore, finalMeta, player, "&fThe Shot Heard Round The World", "&f2021");
 
-                                    if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
-                                        item = is;
-                                    }
-                                }
-                            }
-
-                            lore.clear();
-                            lore.add(ChatColor.translateAlternateColorCodes('&', "&fThe Shot Heard Round The World"));
-                            lore.add(ChatColor.translateAlternateColorCodes('&', "&f2021"));
-                            finalMeta.setLore(lore);
-                            item.setItemMeta(finalMeta);
-
-                            if(player.getInventory().contains(item)) {
-                                player.getInventory().setItem(player.getInventory().first(item), item);
-                                player.updateInventory();
-                            }
                             counter = 3;
                             break;
+
                         case 3:
-                            for (Player player : Bukkit.getOnlinePlayers()) {
-                                for (ItemStack is : player.getInventory()) {
-                                    if((is == null) || (is.getItemMeta() == null)){ continue; }
 
-                                    if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
-                                        item = is;
-                                    }
-                                }
-                            }
+                            updateLore(item, lore, finalMeta, player, "&9The Shot Heard Round The World", "&92021");
 
-                            lore.clear();
-                            lore.add(ChatColor.translateAlternateColorCodes('&', "&9The Shot Heard Round The World"));
-                            lore.add(ChatColor.translateAlternateColorCodes('&', "&92021"));
-                            finalMeta.setLore(lore);
-                            item.setItemMeta(finalMeta);
-
-                            if(player.getInventory().contains(item)) {
-                                player.getInventory().setItem(player.getInventory().first(item), item);
-                                player.updateInventory();
-                            }
                             counter = 1;
                             break;
                     }
                 }
             }.runTaskTimer(customBows, 1, 60);
+        }
+    }
+
+    private void updateLore(ItemStack item, List<String> lore, ItemMeta finalMeta, Player player, final String...args){
+        if(InteractListener.drawing.contains(player)){
+            return;
+        }
+
+        for (Player BPlayer : Bukkit.getOnlinePlayers()) {
+            for (ItemStack is : BPlayer.getInventory()) {
+                if((is == null) || (is.getItemMeta() == null)){ continue; }
+
+                if(dataContainer.has(is, "Custom-Bow-Identifier") ) {
+                    item = is;
+                }
+            }
+        }
+
+        lore.clear();
+
+        for(String arg : args) {
+            lore.add(ChatColor.translateAlternateColorCodes('&', arg));
+        }
+
+        finalMeta.setLore(lore);
+        item.setItemMeta(finalMeta);
+
+        if(player.getInventory().contains(item)) {
+            player.getInventory().setItem(player.getInventory().first(item), item);
+            //player.updateInventory();
         }
     }
 }

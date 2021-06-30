@@ -1,6 +1,7 @@
 package net.arcticforestmc.custombows;
 
 import net.arcticforestmc.custombows.DataManagers.DataContainer;
+import net.arcticforestmc.custombows.Utilities.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -12,6 +13,8 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +36,16 @@ public class OnHitEvent implements Listener {
 
         if(meta == null) { return; }
         DataContainer dataContainer = Utils.getRightContainer();
-        if(!(dataContainer.has(meta, "Custom-Bow-Identifier"))){return;}
+        if(!(dataContainer.has(customBow, "Custom-Bow-Identifier"))){
+            System.out.println("First check");
+            return;
+        }
 
         Entity projectile = e.getEntity();
 
         dataContainer = Utils.getRightContainer();
         if(!(dataContainer.has(projectile, "Special-boy-arrow"))){
+            System.out.println("Second check");
             return;
         }
 
@@ -50,16 +57,28 @@ public class OnHitEvent implements Listener {
         fireworkEffectList.add(FireworkEffect.builder().withColor(Color.BLUE).build());
         fireworkEffectList.add(FireworkEffect.builder().withColor(Color.RED).build());
 
+        System.out.println("TEST");
+
         Firework firework = (Firework) projectile.getWorld().spawnEntity(projectile.getLocation(), EntityType.FIREWORK);
         FireworkMeta fireworkMeta = firework.getFireworkMeta();
         fireworkMeta.addEffects(fireworkEffectList);
-        fireworkMeta.setPower(0);
+        fireworkMeta.setPower(1);
+
+        String location = firework.getLocation().toString();
+        System.out.println(location);
 
         firework.setFireworkMeta(fireworkMeta);
-        firework.detonate();
 
         dataContainer = Utils.getRightContainer();
-        dataContainer.set(firework, "Special-boy-firework", "Arrow-from-4th-of-july");
+        firework = (Firework) dataContainer.set(firework, "Special-boy-firework", "Arrow-from-4th-of-july");
+
+        Firework finalFirework = firework;
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                finalFirework.detonate();
+            }
+        }.runTaskLater(customBows, 1);
 
         projectile.remove();
     }

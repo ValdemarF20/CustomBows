@@ -19,6 +19,7 @@ public class CustomBows extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new OnHitEvent(this), this);
         this.getServer().getPluginManager().registerEvents(new DamageByEntity(this), this);
         this.getServer().getPluginManager().registerEvents(new ShootingEvent(this), this);
+        this.getServer().getPluginManager().registerEvents(new InteractListener(), this);
     }
 
     @Override

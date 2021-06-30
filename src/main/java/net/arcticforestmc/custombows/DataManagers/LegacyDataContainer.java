@@ -1,8 +1,6 @@
 package net.arcticforestmc.custombows.DataManagers;
 
 import net.arcticforestmc.custombows.CustomBows;
-import net.arcticforestmc.custombows.ServerVersion;
-import net.minecraft.server.v1_12_R1.EntityLiving;
 import net.minecraft.server.v1_12_R1.NBTTagCompound;
 import net.minecraft.server.v1_12_R1.NBTTagString;
 import org.bukkit.Material;
@@ -10,7 +8,6 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class LegacyDataContainer implements DataContainer {
@@ -75,7 +72,7 @@ public class LegacyDataContainer implements DataContainer {
             NBTTagCompound compound = new NBTTagCompound();
             nmsEntity.c(compound);
 
-            ((EntityLiving)nmsEntity).a(compound);
+            nmsEntity.f(compound); // I HATE THIS
 
             return entity;
         }
@@ -95,9 +92,16 @@ public class LegacyDataContainer implements DataContainer {
             net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(is);
             NBTTagCompound compound = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
             if(compound == null) {return false;}
-            if(compound.hasKey(key)) {
-                return true;
-            }
+            return compound.hasKey(key);
+        }
+
+        if(obj instanceof Entity) {
+            Entity entity = (Entity) obj;
+
+            net.minecraft.server.v1_12_R1.Entity nmsEntity = ((CraftEntity) entity).getHandle();
+            NBTTagCompound compound = new NBTTagCompound();
+
+            return nmsEntity.c(compound);
         }
         return false;
     }

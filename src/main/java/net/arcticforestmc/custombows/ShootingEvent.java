@@ -1,6 +1,7 @@
 package net.arcticforestmc.custombows;
 
 import net.arcticforestmc.custombows.DataManagers.DataContainer;
+import net.arcticforestmc.custombows.Utilities.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -23,16 +24,19 @@ public class ShootingEvent implements Listener {
 
         Player player = (Player) e.getEntity().getShooter();
         ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
+
         if(meta == null){return;}
         Arrow arrow = (Arrow) e.getEntity();
 
         DataContainer dataContainer = Utils.getRightContainer();
-        if(!(dataContainer.has(meta, "Custom-Bow-Identifier"))){
+        if(!(dataContainer.has(player.getInventory().getItemInMainHand(), "Custom-Bow-Identifier"))){
             return;
         }
 
+        InteractListener.drawing.remove(player);
+
         dataContainer = Utils.getRightContainer();
-         arrow = (Arrow) dataContainer.set(arrow, "Special-boy-arrow", "Super-cool-arrow");
+        arrow = (Arrow) dataContainer.set(arrow, "Special-boy-arrow", "Super-cool-arrow"); //NPE
 
         // BLUE
         double redOne = 0 / 255D;

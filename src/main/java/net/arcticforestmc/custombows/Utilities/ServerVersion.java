@@ -1,4 +1,4 @@
-package net.arcticforestmc.custombows;
+package net.arcticforestmc.custombows.Utilities;
 
 import org.jetbrains.annotations.NotNull;
 import org.bukkit.Bukkit;
