@@ -131,7 +131,7 @@ public class GiveCustomBow implements CommandExecutor {
 
         if(player.getInventory().contains(item)) {
             player.getInventory().setItem(player.getInventory().first(item), item);
-            //player.updateInventory();
+            player.updateInventory();
         }
     }
 }

@@ -2,8 +2,6 @@ package net.arcticforestmc.custombows.DataManagers;
 
 import net.arcticforestmc.custombows.CustomBows;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Entity;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;

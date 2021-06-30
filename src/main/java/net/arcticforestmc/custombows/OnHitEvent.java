@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,6 @@ public class OnHitEvent implements Listener {
         if(meta == null) { return; }
         DataContainer dataContainer = Utils.getRightContainer();
         if(!(dataContainer.has(customBow, "Custom-Bow-Identifier"))){
-            System.out.println("First check");
             return;
         }
 
@@ -45,7 +43,6 @@ public class OnHitEvent implements Listener {
 
         dataContainer = Utils.getRightContainer();
         if(!(dataContainer.has(projectile, "Special-boy-arrow"))){
-            System.out.println("Second check");
             return;
         }
 
