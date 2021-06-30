@@ -24,7 +24,7 @@ import java.util.logging.Level;
 public class GiveCustomBow implements CommandExecutor {
     private final CustomBows customBows;
     private int counter = 1;
-    private DataContainer dataContainer = getRightContainer(null);
+    private DataContainer dataContainer = Utils.getRightContainer(null);
 
     public GiveCustomBow(CustomBows customBows){
         this.customBows = customBows;
@@ -59,7 +59,7 @@ public class GiveCustomBow implements CommandExecutor {
 
 
         if(meta != null) {
-            dataContainer = getRightContainer(meta);
+            dataContainer = Utils.getRightContainer(meta);
             meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&l &4L&fi&1b&4e&fr&1t&4y"));
             meta.setLore(lore);
 
@@ -152,9 +152,5 @@ public class GiveCustomBow implements CommandExecutor {
                 }
             }.runTaskTimer(customBows, 1, 60);
         }
-    }
-    private DataContainer getRightContainer(ItemMeta meta) {
-        if (ServerVersion.CURRENT_VERSION.isOlderThan(ServerVersion.V1_14_R1)) {return new LegacyDataContainer();}
-        return new SimpleDataContainer(customBows, meta);
     }
 }

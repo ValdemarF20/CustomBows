@@ -1,5 +1,6 @@
 package net.arcticforestmc.custombows;
 
+import net.arcticforestmc.custombows.DataManagers.DataContainer;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
@@ -14,7 +15,8 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class ShootingEvent implements Listener {
-    private CustomBows customBows;
+    private final CustomBows customBows;
+    private DataContainer dataContainer = Utils.getRightContainer(null);
 
     public ShootingEvent(CustomBows customBows) {
         this.customBows = customBows;
@@ -25,19 +27,17 @@ public class ShootingEvent implements Listener {
         if(!(e.getEntity().getShooter() instanceof Player) || !(e.getEntity() instanceof Arrow)) {return;}
 
         Player player = (Player) e.getEntity().getShooter();
-        Inventory inventory = player.getInventory();
         ItemMeta meta = player.getInventory().getItemInMainHand().getItemMeta();
         if(meta == null){return;}
         Arrow arrow = (Arrow) e.getEntity();
-        ItemStack arrItem = new ItemStack(Material.ARROW);
 
-        NamespacedKey key = new NamespacedKey(customBows, "Custom-Bow-Identifier");
-        PersistentDataContainer arrTagContainer = meta.getPersistentDataContainer();
-        if(!(arrTagContainer.has(key, PersistentDataType.STRING))){return;}
+        dataContainer = Utils.getRightContainer(meta);
+        if(!(dataContainer.has("Custom-Bow-Identifier"))){
+            return;
+        }
 
-        NamespacedKey arrKey = new NamespacedKey(customBows, "Special-boy-arrow");
-        PersistentDataContainer tagContainer = arrow.getPersistentDataContainer();
-        tagContainer.set(arrKey, PersistentDataType.STRING, "Super-cool-arrow");
+        dataContainer = Utils.getRightContainer(arrow);
+        dataContainer.set("Special-boy-arrow", "Super-cool-arrow");
 
         // BLUE
         double redOne = 0 / 255D;

@@ -1,5 +1,8 @@
 package net.arcticforestmc.custombows;
 
+import net.arcticforestmc.custombows.DataManagers.DataContainer;
+import net.arcticforestmc.custombows.DataManagers.LegacyDataContainer;
+import net.arcticforestmc.custombows.DataManagers.SimpleDataContainer;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -19,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OnHitEvent implements Listener {
-    private CustomBows customBows;
+    private final CustomBows customBows;
+    private DataContainer dataContainer = Utils.getRightContainer(null);
 
     public OnHitEvent(CustomBows customBows){
         this.customBows = customBows;
@@ -41,10 +45,10 @@ public class OnHitEvent implements Listener {
 
         Entity projectile = e.getEntity();
 
-        NamespacedKey arrKey = new NamespacedKey(customBows, "Special-boy-arrow");
-        PersistentDataContainer arrTagContainer = projectile.getPersistentDataContainer();
-
-        if(!(arrTagContainer.has(arrKey, PersistentDataType.STRING))){return;}
+        dataContainer = Utils.getRightContainer(projectile);
+        if(!(dataContainer.has("Special-boy-arrow"))){
+            return;
+        }
 
         projectile.getWorld().playEffect(projectile.getLocation(), Effect.FIREWORK_SHOOT, 0);
 
@@ -62,9 +66,8 @@ public class OnHitEvent implements Listener {
         firework.setFireworkMeta(fireworkMeta);
         firework.detonate();
 
-        NamespacedKey fwKey = new NamespacedKey(customBows, "Special-boy-firework");
-        PersistentDataContainer fwTagContainer = firework.getPersistentDataContainer();
-        fwTagContainer.set(fwKey, PersistentDataType.STRING, "Arrow-from-4th-of-july");
+        dataContainer = Utils.getRightContainer(firework);
+        dataContainer.set("Special-boy-firework", "Arrow-from-4th-of-july");
 
         projectile.remove();
     }
