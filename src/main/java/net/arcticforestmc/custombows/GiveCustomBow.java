@@ -1,12 +1,9 @@
 package net.arcticforestmc.custombows;
 
 import net.arcticforestmc.custombows.DataManagers.DataContainer;
-import net.arcticforestmc.custombows.DataManagers.LegacyDataContainer;
-import net.arcticforestmc.custombows.DataManagers.SimpleDataContainer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

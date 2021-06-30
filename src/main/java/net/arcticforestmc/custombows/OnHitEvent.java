@@ -1,8 +1,6 @@
 package net.arcticforestmc.custombows;
 
 import net.arcticforestmc.custombows.DataManagers.DataContainer;
-import net.arcticforestmc.custombows.DataManagers.LegacyDataContainer;
-import net.arcticforestmc.custombows.DataManagers.SimpleDataContainer;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -16,7 +14,6 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;

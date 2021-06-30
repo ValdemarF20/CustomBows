@@ -9,7 +9,6 @@ import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -42,15 +41,6 @@ public class DamageByEntity implements Listener {
             if(dataContainer.has("Special-boy-firework")){
                 e.setCancelled(true);
             }
-
-            /*
-            NamespacedKey fwKey = new NamespacedKey(customBows, "Special-boy-firework");
-            PersistentDataContainer fwTagContainer = fw.getPersistentDataContainer();
-
-            if(fwTagContainer.has(fwKey, PersistentDataType.STRING)){
-                e.setCancelled(true);
-            }
-             */
         }
     }
 }
