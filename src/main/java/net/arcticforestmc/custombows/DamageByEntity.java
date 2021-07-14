@@ -9,15 +9,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 public class DamageByEntity implements Listener {
-    private final CustomBows customBows;
-
-    public DamageByEntity(CustomBows customBows){
-        this.customBows = customBows;
-    }
-
     @EventHandler
     public void damageByEntity(EntityDamageByEntityEvent e){
-        DataContainer dataContainer = Utils.getRightContainer();
+        DataContainer dataContainer;
         if(e.getDamager() instanceof Arrow) {
 
             Arrow arr = (Arrow) e.getDamager();
